@@ -1,6 +1,6 @@
-# AdSpotted
+# Adrift
 
-Pinterest-style masonry feed of products/brands spotted in Instagram ads. Category filters, admin-only submission form. Owner: Randall (beginner, learning by doing; direct answers, working code over explanations, no em dashes).
+Formerly AdSpotted (renamed Aug 3, 2026; repo folder and Supabase project names unchanged). Pinterest-style masonry feed of products/brands spotted in Instagram ads. Category filters, admin-only submission form. Owner: Randall (beginner, learning by doing; direct answers, working code over explanations, no em dashes).
 
 ## Stack
 
