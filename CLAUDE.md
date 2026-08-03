@@ -12,10 +12,10 @@ Formerly AdSpotted (renamed Aug 3, 2026; repo folder and Supabase project names 
 
 - Supabase project "Hollow Ronin", ref `acfrkjuvtcnoybppjumd`, region us-east-1, ACTIVE
 - Table `public.ads` exists with RLS enabled: public SELECT policy only, writes go through the service role key server-side
-- Seeded with 12 real brands but PLACEHOLDER images (picsum.photos). Swapping in real ad images from Meta Ad Library via /admin is an open task
+- 51 real brands live with real product images in the `ad-images` Storage bucket
 - Local build passes (`npm run build`)
-- Not yet deployed to Vercel
-- Not yet in a git repo
+- LIVE at https://adspotted.vercel.app — GitHub repo `randall-flores/adspotted` auto-deploys `main`
+- Supabase magic-link auth + `public.saves` table (RLS, own rows only); saves sync localStorage ↔ cloud
 
 ## Architecture
 
@@ -40,14 +40,14 @@ Store metadata + link out to brand sites. Prefer Meta Ad Library images or brand
 
 ## Immediate todos
 
-1. `git init`, push to GitHub, connect repo to Vercel (auto-deploy on push)
-2. Add the two secret env vars in Vercel project settings
-3. Replace the 12 placeholder images with real ad images via /admin
+1. Set Supabase Auth Site URL to https://adspotted.vercel.app (magic links redirect to localhost until then)
+2. Data model: `saves` table exists (user_id, ad_id, created_at; RLS own-rows)
 
 ## Roadmap
 
-- Week 1-2: polish categories, search, share links, basic SEO (per-ad pages with metadata)
-- Later: user accounts (Supabase auth), saved collections, public submissions with moderation queue, React Native/Expo app reusing the same Supabase backend
+- Next: per-find pages `/find/[id]` with share + og metadata, PWA manifest, Vercel Analytics
+- Then: public submissions with moderation queue (`status` column), brand pages
+- Later: password + Google sign-in (after domain + project email exist), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
 
 ## Conventions
 
