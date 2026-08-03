@@ -48,6 +48,21 @@ Hybrid of three mockup directions, approved by Randall after two iterations
   of navigating (same-tab navigation on touch).
 - All motion respects `prefers-reduced-motion`.
 
+## Auth + Profile (added same day)
+
+- Supabase magic-link auth (`signInWithOtp`), no passwords. Redirect back
+  to `/profile`.
+- `public.saves` table (user_id, ad_id, created_at; RLS: own rows only).
+- localStorage stays the UI source of truth; signed-in toggles mirror to
+  the table in the background. On sign-in, local saves are pushed up and
+  the union pulled down (`syncSavesWithCloud`).
+- `/profile`: signed out = email form; signed in = avatar, email, member
+  since, saves count, top saved category ("your taste"), sign out.
+- Nav: Profile appears in bottom nav (4 tabs) and desktop header.
+- Deploy note: set the production Site URL in Supabase Auth settings or
+  magic links will keep redirecting to localhost. Built-in SMTP is
+  rate-limited (~2 emails/hour) — fine for MVP, custom SMTP later.
+
 ## Files
 
 - `app/globals.css` — rewrite: tokens, new direction contract, stage,

@@ -31,6 +31,16 @@ export const SUPABASE_ANON_KEY =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
   "sb_publishable_w-awi1SwHF7mdSPhshnRsw_qGysnCu8";
 
+// One client per browser tab so the auth session persists across pages.
+// On the server each call gets a fresh client (no session needed there).
+let browserClient: ReturnType<typeof createClient> | null = null;
+
 export function supabaseBrowser() {
-  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  if (typeof window === "undefined") {
+    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  if (!browserClient) {
+    browserClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  return browserClient;
 }

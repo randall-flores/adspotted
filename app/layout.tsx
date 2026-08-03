@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import AuthSync from "./components/AuthSync";
 import BottomNav from "./components/BottomNav";
 import SavedLink from "./components/SavedLink";
 
@@ -53,6 +54,23 @@ export default function RootLayout({
                 Explore
               </Link>
               <SavedLink />
+              <Link
+                href="/profile"
+                className="hidden sm:flex items-center gap-1.5 text-[13px] font-bold"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="w-[18px] h-[18px] text-[var(--accent)]"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 21c1-5 5-7 8-7s7 2 8 7" />
+                </svg>
+                Profile
+              </Link>
             </div>
           </div>
         </header>
@@ -64,6 +82,7 @@ export default function RootLayout({
           </div>
         </footer>
         <BottomNav />
+        <AuthSync />
       </body>
     </html>
   );

@@ -36,6 +36,13 @@ export default function BottomNav() {
         Saved
         {count > 0 && <span className="bn-badge">{count}</span>}
       </Link>
+      <Link href="/profile" className={`bn-item ${pathname === "/profile" ? "active" : ""}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c1-5 5-7 8-7s7 2 8 7" />
+        </svg>
+        Profile
+      </Link>
     </nav>
   );
 }
