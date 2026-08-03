@@ -1,28 +1,35 @@
 /*
-DIRECTION CONTRACT — Modern commerce browse (user-pinned, Zalando-class canon)
-THESIS: A clean, image-first discovery feed for products people scrolled past
-  on social media. The photos are the interface; the UI recedes.
-OWN-WORLD: Pure white ground, ink #111, gray #666 secondary, soft #f2f2f2
-  surfaces, cobalt #2c4bff used only as a whisper (wordmark period, focus).
-  Archivo single-family type: expanded weights for identity, regular for UI.
-  Bare rounded images, no card chrome. Rounded chip filters, black when active.
-STORY: Visitor recognizes "I saw that ad", browses by category, taps through
-  to the brand to shop.
-FIRST VIEWPORT: Minimal header with wordmark, compact intro line, chip filter
-  row, masonry photo grid carrying all the color.
-FORM: Contemporary fashion e-commerce grid (Zalando / SSENSE lineage).
+DIRECTION CONTRACT — Adrift (user-pinned, approved Aug 3 2026)
+THESIS: You drift through your feed; the ads you meant to remember are the
+  things you catch. The app is where they surface.
+OWN-WORLD: Fog ground #f3f5f4, deep-water ink #0e1e26, sea-glass teal
+  #0c7a6d accent (seafoam #5fd0c2 light variant), sand #e7e2d6 reserve.
+  Archivo single family: expanded stretch for the wordmark and display,
+  regular for UI. Lowercase wordmark "adrift." with a bobbing teal period.
+STORY: Open on "New this week" — one big beautiful find at a time, swipe
+  sideways. Below, everything else drifts in a gently bobbing, slightly
+  tilted masonry. Double-tap = "the drop": a teal heart falls in and water
+  ripples out. Saved finds wear a small teal heart badge.
+VOICE: Plain labels first (Home, Saved, Explore), identity in the look and
+  motion — never cryptic nav, no ticker marquees, no week numbers.
+FIRST VIEWPORT (mobile): wordmark, category tabs, "New this week" stage
+  card, top of the masonry, bottom nav.
 FINISH: unreviewed and undocumented is unfinished.
+DEAD LOOKS (do not revive): white/cobalt Zalando minimal; cream/Fraunces/
+  terracotta; tabloid Anton/red/yellow.
 */
 
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
-  --ink: #111111;
-  --gray: #666666;
-  --soft: #f2f2f2;
-  --line: #e5e5e5;
-  --accent: #2c4bff;
+  --bg: #f3f5f4;
+  --ink: #0e1e26;
+  --gray: #7d8a86;
+  --soft: #e9edeb;
+  --line: #e0e4e1;
+  --accent: #0c7a6d;
+  --seafoam: #5fd0c2;
+  --sand: #e7e2d6;
 }
 
 body {
@@ -34,8 +41,8 @@ body {
 /* Wordmark and headings: expanded cut of the same family */
 .font-display {
   font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  font-stretch: 115%;
-  letter-spacing: -0.01em;
+  font-stretch: 118%;
+  letter-spacing: -0.02em;
 }
 
 :focus-visible {
@@ -43,13 +50,108 @@ body {
   outline-offset: 2px;
 }
 
-/* Masonry photo grid */
-.masonry {
-  column-gap: 1rem;
-  columns: 1;
+/* Wordmark period drifts like something floating */
+.drift-dot {
+  color: var(--accent);
+  display: inline-block;
 }
-@media (min-width: 640px) {
-  .masonry { columns: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .drift-dot {
+    animation: drift-dot 3.4s ease-in-out infinite;
+  }
+}
+@keyframes drift-dot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Category tabs: uppercase, teal underline on active */
+.tabrow {
+  display: flex;
+  gap: 1.15rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.tabrow::-webkit-scrollbar {
+  display: none;
+}
+.tab {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--gray);
+  white-space: nowrap;
+  padding-bottom: 7px;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s ease;
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab-active {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+/* "New this week" stage: horizontal snap scroll */
+.stage {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+}
+.stage::-webkit-scrollbar {
+  display: none;
+}
+.stage-card {
+  position: relative;
+  flex: 0 0 min(78vw, 300px);
+  scroll-snap-align: start;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--soft);
+  box-shadow: 0 16px 36px rgba(14, 30, 38, 0.18);
+}
+.stage-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stage-card .veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 46%, rgba(8, 20, 26, 0.72));
+}
+.shop-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 14px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  padding: 9px 14px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.shop-btn:hover {
+  background: #0a6a5f;
+  transform: scale(1.04);
+}
+
+/* Masonry: tilted, gently bobbing catches */
+.masonry {
+  column-gap: 0.85rem;
+  columns: 2;
 }
 @media (min-width: 900px) {
   .masonry { columns: 3; }
@@ -59,106 +161,194 @@ body {
 }
 .masonry > * {
   break-inside: avoid;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
-/* Product card: bare image, text below, no chrome */
-.ad-card {
-  display: block;
-}
-.ad-card .frame {
+.fc {
   position: relative;
+  display: block;
+  border-radius: 14px;
   overflow: hidden;
-  border-radius: 10px;
   background: var(--soft);
+  box-shadow: 0 10px 24px rgba(14, 30, 38, 0.13);
 }
-.ad-card img {
+.masonry > *:nth-child(odd) .fc {
+  transform: rotate(-1.2deg);
+}
+.masonry > *:nth-child(even) .fc {
+  transform: rotate(1deg);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fc {
+    animation: bob 5.4s ease-in-out infinite;
+  }
+  .masonry > *:nth-child(3n) .fc { animation-delay: 1.4s; }
+  .masonry > *:nth-child(3n + 2) .fc { animation-delay: 2.8s; }
+}
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+.fc img {
   display: block;
   width: 100%;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.ad-card:hover img {
+.fc:hover img {
   transform: scale(1.03);
 }
-.ad-card .shop-hint {
+.tagp {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  color: var(--ink);
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Heart button (explicit save) + saved badge */
+.heart-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
   color: var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  z-index: 3;
 }
-.ad-card:hover .shop-hint,
-.ad-card:focus-visible .shop-hint {
-  opacity: 1;
-  transform: translateY(0);
+.heart-btn:hover {
+  transform: scale(1.1);
 }
-.ad-card:hover .product-name {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.heart-btn svg {
+  width: 16px;
+  height: 16px;
 }
-
-/* Category chips */
-.chip {
-  border: 1px solid #cccccc;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
-}
-.chip:hover {
-  border-color: var(--ink);
-}
-.chip-active {
-  background: var(--ink);
-  border-color: var(--ink);
+.heart-btn.saved {
+  background: var(--accent);
   color: #ffffff;
 }
 
-/* Horizontal chip scroll on small screens, no visible scrollbar */
-.chip-row {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+/* "The drop": teal heart falls in, water ripples out */
+.drop-splash {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 4;
 }
-.chip-row::-webkit-scrollbar {
-  display: none;
+.drop-splash .drop-heart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  animation: heart-drop 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.drop-splash .drop-heart svg {
+  width: 62px;
+  height: 62px;
+  fill: var(--seafoam);
+  stroke: #eafffa;
+  stroke-width: 1;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
+}
+@keyframes heart-drop {
+  0% { transform: translate(-50%, -140%) scale(0); opacity: 0; }
+  35% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(0.96); }
+  75% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+}
+.drop-splash .ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  border: 2.5px solid rgba(95, 208, 194, 0.9);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  animation: ripple 0.9s ease-out forwards;
+}
+.drop-splash .ring:nth-child(2) {
+  animation-delay: 0.1s;
+  border-color: rgba(95, 208, 194, 0.55);
+}
+.drop-splash .ring:nth-child(3) {
+  animation-delay: 0.2s;
+  border-color: rgba(95, 208, 194, 0.3);
+}
+@keyframes ripple {
+  0% { width: 20px; height: 20px; opacity: 0; }
+  15% { opacity: 1; }
+  100% { width: 150px; height: 150px; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drop-splash .drop-heart { animation: none; opacity: 1; }
+  .drop-splash .ring { animation: none; }
 }
 
-/* Card entrance: soft stagger */
-@media (prefers-reduced-motion: no-preference) {
-  .masonry > * {
-    animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  }
-  .masonry > *:nth-child(1) { animation-delay: 0.04s; }
-  .masonry > *:nth-child(2) { animation-delay: 0.08s; }
-  .masonry > *:nth-child(3) { animation-delay: 0.12s; }
-  .masonry > *:nth-child(4) { animation-delay: 0.16s; }
-  .masonry > *:nth-child(5) { animation-delay: 0.2s; }
-  .masonry > *:nth-child(6) { animation-delay: 0.24s; }
-  .masonry > *:nth-child(7) { animation-delay: 0.28s; }
-  .masonry > *:nth-child(8) { animation-delay: 0.32s; }
+/* Bottom nav (mobile app bar) */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: var(--ink);
+  color: #8fa0a0;
+  display: flex;
+  padding-top: 9px;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 20;
 }
-@keyframes card-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+.bottom-nav .bn-item {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  position: relative;
+}
+.bottom-nav .bn-item svg {
+  display: block;
+  margin: 0 auto 3px;
+  width: 22px;
+  height: 22px;
+}
+.bottom-nav .bn-item.active {
+  color: var(--seafoam);
+}
+.bn-badge {
+  position: absolute;
+  top: -4px;
+  left: calc(50% + 8px);
+  background: var(--seafoam);
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 1px 5px;
+}
+@media (min-width: 640px) {
+  .bottom-nav {
+    display: none;
   }
 }
