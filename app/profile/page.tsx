@@ -85,12 +85,9 @@ export default function ProfilePage() {
       {/* Signed out */}
       {session === null && (
         <div className="profile-card">
-          <h2 className="font-display font-bold text-[16px]">
-            Keep your saves everywhere
-          </h2>
+          <h2 className="font-display font-bold text-[16px]">Sign in</h2>
           <p className="text-sm text-[var(--gray)] mt-1.5 leading-relaxed">
-            Sign in and everything you save syncs across your devices. No
-            password — we email you a sign-in link.
+            Enter your email and we&apos;ll send you a sign-in link.
           </p>
           {sentTo ? (
             <div className="mt-5">
@@ -98,7 +95,7 @@ export default function ProfilePage() {
                 Link sent to {sentTo}.
               </p>
               <p className="text-sm text-[var(--gray)] mt-1">
-                Open it on this device and you&apos;re in. Wrong address?{" "}
+                Check your inbox. Wrong address?{" "}
                 <button
                   type="button"
                   className="font-bold text-[var(--accent)]"
@@ -121,7 +118,7 @@ export default function ProfilePage() {
                 autoComplete="email"
               />
               <button type="submit" className="cta-btn" disabled={sending}>
-                {sending ? "Sending…" : "Send sign-in link"}
+                {sending ? "Sending…" : "Send link"}
               </button>
             </form>
           )}
