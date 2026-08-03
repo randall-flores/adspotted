@@ -47,7 +47,7 @@ Store metadata + link out to brand sites. Prefer Meta Ad Library images or brand
 
 - Next: per-find pages `/find/[id]` with share + og metadata, PWA manifest, Vercel Analytics
 - Then: public submissions with moderation queue (`status` column), brand pages
-- Later: password + Google sign-in (after domain + project email exist), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
+- Later: password + Google sign-in (after domain + project email exist), proper logo (current icon is a placeholder Randall wants replaced), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
 
 ## Conventions
 
