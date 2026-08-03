@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { type Ad } from "@/lib/supabase";
 import { getSavedIds, toggleSaved, onSavedChange } from "@/lib/saved";
@@ -78,15 +80,27 @@ function HeartButton({
 
 function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number }) {
   const { saved, splashKey, toggle } = useSave(ad.id);
+  const router = useRouter();
   const lastTap = useRef(0);
+  const navTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (navTimer.current) clearTimeout(navTimer.current);
+    };
+  }, []);
 
   function handleTap() {
     const now = Date.now();
     if (now - lastTap.current < 320) {
       lastTap.current = 0;
+      if (navTimer.current) clearTimeout(navTimer.current);
       toggle(true);
     } else {
       lastTap.current = now;
+      navTimer.current = setTimeout(() => {
+        router.push(`/find/${ad.id}`);
+      }, 330);
     }
   }
 
@@ -121,6 +135,7 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
 
 function MasonryCard({ ad }: { ad: Ad }) {
   const { saved, splashKey, toggle } = useSave(ad.id);
+  const router = useRouter();
   const lastTap = useRef(0);
   const navTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -134,7 +149,7 @@ function MasonryCard({ ad }: { ad: Ad }) {
     const coarse =
       typeof window !== "undefined" &&
       window.matchMedia("(pointer: coarse)").matches;
-    if (!coarse) return; // desktop: normal link, hearts via button
+    if (!coarse) return; // desktop: instant nav, hearts via button
     e.preventDefault();
     const now = Date.now();
     if (now - lastTap.current < 320) {
@@ -144,26 +159,20 @@ function MasonryCard({ ad }: { ad: Ad }) {
     } else {
       lastTap.current = now;
       navTimer.current = setTimeout(() => {
-        window.location.href = ad.brand_url;
+        router.push(`/find/${ad.id}`);
       }, 330);
     }
   }
 
   return (
     <div className="relative">
-      <a
-        href={ad.brand_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fc"
-        onClick={handleClick}
-      >
+      <Link href={`/find/${ad.id}`} className="fc" onClick={handleClick}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={ad.image_url} alt={`${ad.product_name} by ${ad.brand_name}`} loading="lazy" />
         <span className="tagp">{ad.brand_name}</span>
         {splashKey > 0 && <DropSplash key={splashKey} />}
         <HeartButton saved={saved} onToggle={() => toggle(true)} brand={ad.brand_name} />
-      </a>
+      </Link>
     </div>
   );
 }

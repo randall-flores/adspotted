@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
@@ -9,6 +10,10 @@ export const metadata: Metadata = {
   title: "Adrift — the products you scrolled past",
   description:
     "Products and brands from Instagram ads, collected so you can find them again. Browse by category, save what you like, and shop straight at the brand.",
+  icons: {
+    icon: "/icons/favicon-64.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -83,6 +88,7 @@ export default function RootLayout({
         </footer>
         <BottomNav />
         <AuthSync />
+        <Analytics />
       </body>
     </html>
   );
