@@ -22,6 +22,13 @@ export default function BottomNav() {
         </svg>
         Home
       </Link>
+      <Link href="/explore" className={`bn-item ${pathname === "/explore" ? "active" : ""}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="M21 21l-4-4" />
+        </svg>
+        Explore
+      </Link>
       <Link href="/saved" className={`bn-item ${pathname === "/saved" ? "active" : ""}`}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M12 21s-8-5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 6-8 11-8 11z" />

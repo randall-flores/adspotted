@@ -34,7 +34,26 @@ export default function RootLayout({
             >
               adrift<span className="drift-dot">.</span>
             </Link>
-            <SavedLink />
+            <div className="flex items-center gap-6">
+              <Link
+                href="/explore"
+                className="hidden sm:flex items-center gap-1.5 text-[13px] font-bold"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="w-[18px] h-[18px] text-[var(--accent)]"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M21 21l-4-4" />
+                </svg>
+                Explore
+              </Link>
+              <SavedLink />
+            </div>
           </div>
         </header>
         {children}
