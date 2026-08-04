@@ -182,6 +182,8 @@ body {
   overflow: hidden;
   background: var(--soft);
   box-shadow: 0 10px 24px rgba(14, 30, 38, 0.13);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
 }
 .masonry > *:nth-child(odd) .fc {
   transform: rotate(-1.2deg);
@@ -223,6 +225,56 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Category tiles ("Go deeper") */
+.cat-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--soft);
+  box-shadow: 0 10px 24px rgba(14, 30, 38, 0.13);
+}
+.cat-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cat-tile:hover img {
+  transform: scale(1.04);
+}
+.ct-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(8, 20, 26, 0.66));
+}
+.ct-label {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  color: #ffffff;
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-stretch: 118%;
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.ct-count {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(14, 30, 38, 0.55);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  padding: 3px 8px;
 }
 
 /* Image failure fallback: brand name on sand instead of a blank hole */

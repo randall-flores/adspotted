@@ -205,25 +205,29 @@ export function Masonry({ ads }: { ads: Ad[] }) {
   );
 }
 
+export function Stage({ ads }: { ads: Ad[] }) {
+  if (ads.length === 0) return null;
+  return (
+    <section className="mb-7" aria-label="New this week">
+      <h2 className="font-display font-black text-[15px] tracking-wide mb-2.5">
+        New this week
+      </h2>
+      <div className="stage">
+        {ads.map((ad, i) => (
+          <StageCard key={ad.id} ad={ad} index={i} total={ads.length} />
+        ))}
+      </div>
+      <p className="text-[11px] text-[var(--gray)] text-center mt-2">
+        swipe to browse · double-tap to save
+      </p>
+    </section>
+  );
+}
+
 export default function Feed({ ads, showStage }: { ads: Ad[]; showStage: boolean }) {
-  const newest = ads.slice(0, 8);
   return (
     <>
-      {showStage && newest.length > 0 && (
-        <section className="mb-7" aria-label="New this week">
-          <h2 className="font-display font-black text-[15px] tracking-wide mb-2.5">
-            New this week
-          </h2>
-          <div className="stage">
-            {newest.map((ad, i) => (
-              <StageCard key={ad.id} ad={ad} index={i} total={newest.length} />
-            ))}
-          </div>
-          <p className="text-[11px] text-[var(--gray)] text-center mt-2">
-            swipe to browse · double-tap to save
-          </p>
-        </section>
-      )}
+      {showStage && <Stage ads={ads.slice(0, 8)} />}
       <div className="flex items-baseline justify-between mb-2.5">
         <h2 className="font-display font-black text-[15px] tracking-wide">All finds</h2>
         <span className="text-[11px] font-extrabold text-[var(--accent)]">{ads.length}</span>

@@ -82,7 +82,7 @@ export default async function FindPage({
           </h1>
           <p className="text-[15px] text-[#44524e] mt-0.5">{ad.product_name}</p>
           <Link
-            href={`/?category=${encodeURIComponent(ad.category)}`}
+            href={`/c/${encodeURIComponent(ad.category)}`}
             className="inline-block mt-2.5 text-[11px] font-extrabold tracking-[0.1em] uppercase text-[var(--accent)]"
           >
             {ad.category}

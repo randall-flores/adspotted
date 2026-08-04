@@ -71,7 +71,7 @@ export default async function BrandPage({
             {categories.map((c) => (
               <Link
                 key={c}
-                href={`/?category=${encodeURIComponent(c)}`}
+                href={`/c/${encodeURIComponent(c)}`}
                 className="text-[11px] font-extrabold tracking-[0.1em] uppercase text-[var(--gray)] hover:text-[var(--ink)]"
               >
                 {c}
