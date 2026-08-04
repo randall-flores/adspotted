@@ -85,7 +85,7 @@ export default async function BrandPage({
           rel="noopener noreferrer"
           className="cta-btn !h-[42px] flex items-center shrink-0"
         >
-          SHOP ↗
+          shop<span className="sd">.</span>
         </a>
       </div>
 

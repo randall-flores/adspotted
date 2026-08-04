@@ -101,7 +101,7 @@ export default async function FindPage({
             rel="noopener noreferrer"
             className="cta-btn !h-[42px] flex items-center"
           >
-            SHOP ↗
+            shop<span className="sd">.</span>
           </a>
           <ShareButton
             title={`${ad.brand_name} — ${ad.product_name}`}

@@ -81,7 +81,7 @@ export default async function CategoryPage({
         <div className="text-center mt-6">
           <Link
             href={`/c/${encodeURIComponent(name)}?n=${shown + PAGE}`}
-            className="cta-btn !inline-flex items-center"
+            className="more-btn"
             scroll={false}
           >
             Load more

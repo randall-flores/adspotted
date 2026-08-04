@@ -141,7 +141,7 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
         className="shop-btn"
         onClick={(e) => e.stopPropagation()}
       >
-        SHOP ↗
+        shop<span className="sd">.</span>
       </a>
     </div>
   );
