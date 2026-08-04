@@ -47,6 +47,7 @@ Store metadata + link out to brand sites. Prefer Meta Ad Library images or brand
 
 - Done Aug 4, 2026: per-find pages, PWA manifest, Analytics, brand pages `/brand/[slug]` (slug = URL-encoded brand_name), real logo ("ripple drop" mark: Archivo black-expanded `a` + seafoam round period with ripple rings on ink; generator scripts in session scratchpad, icons in public/icons/, og in public/og.png)
 - Next: public submissions with moderation queue (`status` column)
+- Next: location + language settings (requested Aug 4, 2026) — add `country` (where brand ships/markets) to ads; user-facing region picker filters feed; language toggle later via next-intl. Needs backfill of country per existing brand before UI ships
 - Later: password + Google sign-in (after domain + project email exist), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
 
 ## Perf/glitch fixes (Aug 4, 2026) — don't regress
