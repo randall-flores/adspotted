@@ -12,11 +12,13 @@ export default function AdImage({
   alt,
   brand,
   eager = false,
+  priority = false,
 }: {
   src: string;
   alt: string;
   brand: string;
   eager?: boolean;
+  priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -33,8 +35,8 @@ export default function AdImage({
     <img
       src={src}
       alt={alt}
-      loading={eager ? "eager" : "lazy"}
-      fetchPriority={eager ? "high" : "auto"}
+      loading={eager || priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
       decoding="async"
       onError={() => setFailed(true)}
     />

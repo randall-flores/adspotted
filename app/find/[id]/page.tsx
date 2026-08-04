@@ -66,6 +66,7 @@ export default async function FindPage({
           alt={`${ad.product_name} by ${ad.brand_name}`}
           brand={ad.brand_name}
           eager
+          priority
         />
         <FindHeart adId={ad.id} brand={ad.brand_name} />
       </div>

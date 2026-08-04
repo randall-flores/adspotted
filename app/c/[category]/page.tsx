@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabaseBrowser, CATEGORIES, type Ad } from "@/lib/supabase";
 import { Masonry } from "../../components/Feed";
-import BackButton from "../../components/BackButton";
+import CategoryTabs from "../../components/CategoryTabs";
 
 export const dynamic = "force-dynamic";
 const PAGE = 40;
@@ -61,7 +61,7 @@ export default async function CategoryPage({
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-4">
-      <BackButton />
+      <CategoryTabs active={name} />
       <div className="flex items-baseline justify-between mb-4">
         <h1 className="font-display font-black text-[20px]">{name}</h1>
         <span className="text-[11px] font-extrabold text-[var(--accent)]">

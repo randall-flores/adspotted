@@ -119,6 +119,7 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
         alt={`${ad.product_name} by ${ad.brand_name}`}
         brand={ad.brand_name}
         eager={index < 2}
+        priority={index < 2}
       />
       <div className="veil" aria-hidden="true" />
       <span className="absolute top-3 left-4 text-white text-[11px] font-extrabold tracking-[0.12em] [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]">
@@ -198,8 +199,10 @@ function MasonryCard({ ad, eager }: { ad: Ad; eager?: boolean }) {
 export function Masonry({ ads }: { ads: Ad[] }) {
   return (
     <div className="masonry">
-      {ads.map((ad, i) => (
-        <MasonryCard key={ad.id} ad={ad} eager={i < 4} />
+      {/* All eager: lazy-loading misfires inside CSS columns (the right
+          column's top card is mid-list in DOM order and pops in late). */}
+      {ads.map((ad) => (
+        <MasonryCard key={ad.id} ad={ad} eager />
       ))}
     </div>
   );

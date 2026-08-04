@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseBrowser, CATEGORIES, type Ad } from "@/lib/supabase";
 import { Stage, Masonry } from "./components/Feed";
+import CategoryTabs from "./components/CategoryTabs";
 import { dailySample } from "@/lib/drift";
 
 export const dynamic = "force-dynamic";
@@ -33,16 +34,7 @@ export default async function Home({
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-4">
-      <div className="tabrow -mx-5 px-5 sm:mx-0 sm:px-0 mb-5">
-        <Link href="/" className="tab tab-active">
-          All
-        </Link>
-        {CATEGORIES.map((c) => (
-          <Link key={c} href={`/c/${encodeURIComponent(c)}`} className="tab">
-            {c}
-          </Link>
-        ))}
-      </div>
+      <CategoryTabs active={null} />
 
       {error && (
         <p className="text-sm text-red-600">
