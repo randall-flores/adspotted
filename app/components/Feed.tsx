@@ -148,7 +148,7 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
   );
 }
 
-function MasonryCard({ ad, eager }: { ad: Ad; eager?: boolean }) {
+function MasonryCard({ ad, idx }: { ad: Ad; idx: number }) {
   const { saved, splashKey, toggle } = useSave(ad.id);
   const router = useRouter();
   const lastTap = useRef(0);
@@ -179,30 +179,62 @@ function MasonryCard({ ad, eager }: { ad: Ad; eager?: boolean }) {
     }
   }
 
+  const tilt = idx % 2 ? "tilt-r" : "tilt-l";
+  const bob = idx < 30 ? `bob b${idx % 3}` : "";
+
   return (
-    <div className="relative">
-      <Link href={`/find/${ad.id}`} className="fc" onClick={handleClick}>
-        <AdImage
-          src={ad.image_url}
-          alt={`${ad.product_name} by ${ad.brand_name}`}
-          brand={ad.brand_name}
-          eager={eager}
-        />
-        <span className="tagp">{ad.brand_name}</span>
-        {splashKey > 0 && <DropSplash key={splashKey} />}
-        <HeartButton saved={saved} onToggle={() => toggle(true)} brand={ad.brand_name} />
-      </Link>
-    </div>
+    <Link
+      href={`/find/${ad.id}`}
+      className={`fc ${tilt} ${bob}`}
+      onClick={handleClick}
+    >
+      <AdImage
+        src={ad.image_url}
+        alt={`${ad.product_name} by ${ad.brand_name}`}
+        brand={ad.brand_name}
+        eager
+      />
+      <span className="tagp">{ad.brand_name}</span>
+      {splashKey > 0 && <DropSplash key={splashKey} />}
+      <HeartButton saved={saved} onToggle={() => toggle(true)} brand={ad.brand_name} />
+    </Link>
   );
 }
 
+/**
+ * Masonry as explicit flex columns with round-robin distribution.
+ * CSS multi-column is off the table: WebKit refuses to paint the card
+ * that lands on the column break (blank first card in the right column),
+ * and native lazy-loading misjudges column layouts. Bonus: cards now
+ * read left-to-right, so newest stay on top.
+ */
 export function Masonry({ ads }: { ads: Ad[] }) {
+  const [cols, setCols] = useState(2);
+
+  useEffect(() => {
+    const m3 = window.matchMedia("(min-width: 900px)");
+    const m4 = window.matchMedia("(min-width: 1280px)");
+    const update = () => setCols(m4.matches ? 4 : m3.matches ? 3 : 2);
+    update();
+    m3.addEventListener("change", update);
+    m4.addEventListener("change", update);
+    return () => {
+      m3.removeEventListener("change", update);
+      m4.removeEventListener("change", update);
+    };
+  }, []);
+
   return (
     <div className="masonry">
-      {/* All eager: lazy-loading misfires inside CSS columns (the right
-          column's top card is mid-list in DOM order and pops in late). */}
-      {ads.map((ad) => (
-        <MasonryCard key={ad.id} ad={ad} eager />
+      {Array.from({ length: cols }, (_, c) => (
+        <div className="mcol" key={c}>
+          {ads
+            .map((ad, i) => [ad, i] as const)
+            .filter(([, i]) => i % cols === c)
+            .map(([ad, i]) => (
+              <MasonryCard key={ad.id} ad={ad} idx={i} />
+            ))}
+        </div>
       ))}
     </div>
   );

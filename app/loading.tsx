@@ -14,9 +14,16 @@ export default function HomeLoading() {
       </div>
       <div className="skel h-[16px] w-[90px] mb-3" />
       <div className="masonry">
-        {[220, 300, 250, 320, 210, 280, 260, 230].map((h, i) => (
-          <div key={i} className="skel" style={{ height: h }} />
-        ))}
+        <div className="mcol">
+          {[220, 300, 250, 260].map((h, i) => (
+            <div key={i} className="skel" style={{ height: h }} />
+          ))}
+        </div>
+        <div className="mcol">
+          {[320, 210, 280, 230].map((h, i) => (
+            <div key={i} className="skel" style={{ height: h }} />
+          ))}
+        </div>
       </div>
     </main>
   );

@@ -11,9 +11,16 @@ export default function BrandLoading() {
         <div className="skel h-[42px] w-[92px]" />
       </div>
       <div className="masonry">
-        {[260, 320, 240, 300, 220, 280].map((h, i) => (
-          <div key={i} className="skel" style={{ height: h }} />
-        ))}
+        <div className="mcol">
+          {[260, 320, 240].map((h, i) => (
+            <div key={i} className="skel" style={{ height: h }} />
+          ))}
+        </div>
+        <div className="mcol">
+          {[300, 220, 280].map((h, i) => (
+            <div key={i} className="skel" style={{ height: h }} />
+          ))}
+        </div>
       </div>
     </main>
   );
