@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { supabaseBrowser, type Ad } from "@/lib/supabase";
 import { Masonry } from "../../components/Feed";
 import ShareButton from "../../components/ShareButton";
+import AdImage from "../../components/AdImage";
+import BackButton from "../../components/BackButton";
 import FindHeart from "./FindHeart";
 
 export const dynamic = "force-dynamic";
@@ -51,13 +53,20 @@ export default async function FindPage({
     .eq("category", ad.category)
     .neq("id", ad.id)
     .order("date_spotted", { ascending: false })
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
     .limit(6);
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-4">
+      <BackButton />
       <div className="find-hero">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={ad.image_url} alt={`${ad.product_name} by ${ad.brand_name}`} />
+        <AdImage
+          src={ad.image_url}
+          alt={`${ad.product_name} by ${ad.brand_name}`}
+          brand={ad.brand_name}
+          eager
+        />
         <FindHeart adId={ad.id} brand={ad.brand_name} />
       </div>
 

@@ -15,7 +15,9 @@ export default async function Home({
   let query = supabase
     .from("ads")
     .select("*")
-    .order("date_spotted", { ascending: false });
+    .order("date_spotted", { ascending: false })
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: true });
 
   if (category) query = query.eq("category", category);
 

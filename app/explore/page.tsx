@@ -15,6 +15,8 @@ export default function ExplorePage() {
       .from("ads")
       .select("*")
       .order("date_spotted", { ascending: false })
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
       .then(({ data }) => {
         if (!cancelled && data) setAds(data as Ad[]);
       });

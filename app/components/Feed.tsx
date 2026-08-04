@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { type Ad } from "@/lib/supabase";
 import { getSavedIds, toggleSaved, onSavedChange } from "@/lib/saved";
+import AdImage from "./AdImage";
 
 function HeartIcon({ filled }: { filled?: boolean }) {
   return (
@@ -91,6 +92,13 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
   }, []);
 
   function handleTap() {
+    const coarse =
+      typeof window !== "undefined" &&
+      window.matchMedia("(pointer: coarse)").matches;
+    if (!coarse) {
+      router.push(`/find/${ad.id}`);
+      return;
+    }
     const now = Date.now();
     if (now - lastTap.current < 320) {
       lastTap.current = 0;
@@ -106,19 +114,25 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
 
   return (
     <div className="stage-card" onClick={handleTap}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={ad.image_url} alt={`${ad.product_name} by ${ad.brand_name}`} loading="lazy" />
+      <AdImage
+        src={ad.image_url}
+        alt={`${ad.product_name} by ${ad.brand_name}`}
+        brand={ad.brand_name}
+        eager={index < 2}
+      />
       <div className="veil" aria-hidden="true" />
       <span className="absolute top-3 left-4 text-white text-[11px] font-extrabold tracking-[0.12em] [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]">
         {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </span>
       {splashKey > 0 && <DropSplash key={splashKey} />}
       <HeartButton saved={saved} onToggle={() => toggle(true)} brand={ad.brand_name} />
-      <div className="absolute left-4 bottom-10 text-white font-display font-black text-[24px] leading-none uppercase pr-16">
-        {ad.brand_name}
-      </div>
-      <div className="absolute left-4 bottom-[19px] text-white/80 text-xs font-semibold pr-24">
-        {ad.product_name}
+      <div className="absolute left-4 right-24 bottom-[19px] text-white">
+        <div className="font-display font-black text-[22px] leading-[1.02] uppercase line-clamp-2">
+          {ad.brand_name}
+        </div>
+        <div className="text-white/80 text-xs font-semibold mt-1 line-clamp-1">
+          {ad.product_name}
+        </div>
       </div>
       <a
         href={ad.brand_url}
@@ -133,7 +147,7 @@ function StageCard({ ad, index, total }: { ad: Ad; index: number; total: number 
   );
 }
 
-function MasonryCard({ ad }: { ad: Ad }) {
+function MasonryCard({ ad, eager }: { ad: Ad; eager?: boolean }) {
   const { saved, splashKey, toggle } = useSave(ad.id);
   const router = useRouter();
   const lastTap = useRef(0);
@@ -167,8 +181,12 @@ function MasonryCard({ ad }: { ad: Ad }) {
   return (
     <div className="relative">
       <Link href={`/find/${ad.id}`} className="fc" onClick={handleClick}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={ad.image_url} alt={`${ad.product_name} by ${ad.brand_name}`} loading="lazy" />
+        <AdImage
+          src={ad.image_url}
+          alt={`${ad.product_name} by ${ad.brand_name}`}
+          brand={ad.brand_name}
+          eager={eager}
+        />
         <span className="tagp">{ad.brand_name}</span>
         {splashKey > 0 && <DropSplash key={splashKey} />}
         <HeartButton saved={saved} onToggle={() => toggle(true)} brand={ad.brand_name} />
@@ -180,8 +198,8 @@ function MasonryCard({ ad }: { ad: Ad }) {
 export function Masonry({ ads }: { ads: Ad[] }) {
   return (
     <div className="masonry">
-      {ads.map((ad) => (
-        <MasonryCard key={ad.id} ad={ad} />
+      {ads.map((ad, i) => (
+        <MasonryCard key={ad.id} ad={ad} eager={i < 4} />
       ))}
     </div>
   );
