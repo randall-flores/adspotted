@@ -94,6 +94,17 @@ body {
   color: var(--ink);
   border-bottom-color: var(--accent);
 }
+.tab-count {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--gray);
+  margin-left: 4px;
+  vertical-align: 2px;
+  letter-spacing: 0;
+}
+.tab-active .tab-count {
+  color: var(--accent);
+}
 
 /* "New this week" stage: horizontal snap scroll */
 .stage {

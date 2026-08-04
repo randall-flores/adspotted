@@ -21,13 +21,23 @@ export default async function Home({
 
   if (category) query = query.eq("category", category);
 
-  const { data: ads, error } = await query;
+  const [{ data: ads, error }, { data: catRows }] = await Promise.all([
+    query,
+    supabase.from("ads").select("category"),
+  ]);
+
+  const counts = new Map<string, number>();
+  for (const row of catRows ?? []) {
+    const c = row.category as string;
+    counts.set(c, (counts.get(c) ?? 0) + 1);
+  }
+  const total = catRows?.length ?? 0;
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-4">
       <div className="tabrow -mx-5 px-5 sm:mx-0 sm:px-0 mb-5">
         <Link href="/" className={`tab ${!category ? "tab-active" : ""}`}>
-          All
+          All{total > 0 && <span className="tab-count">{total}</span>}
         </Link>
         {CATEGORIES.map((c) => (
           <Link
@@ -36,6 +46,9 @@ export default async function Home({
             className={`tab ${category === c ? "tab-active" : ""}`}
           >
             {c}
+            {(counts.get(c) ?? 0) > 0 && (
+              <span className="tab-count">{counts.get(c)}</span>
+            )}
           </Link>
         ))}
       </div>
