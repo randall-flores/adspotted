@@ -45,9 +45,17 @@ Store metadata + link out to brand sites. Prefer Meta Ad Library images or brand
 
 ## Roadmap
 
-- Next: per-find pages `/find/[id]` with share + og metadata, PWA manifest, Vercel Analytics
-- Then: public submissions with moderation queue (`status` column), brand pages
-- Later: password + Google sign-in (after domain + project email exist), proper logo (current icon is a placeholder Randall wants replaced), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
+- Done Aug 4, 2026: per-find pages, PWA manifest, Analytics, brand pages `/brand/[slug]` (slug = URL-encoded brand_name), real logo ("ripple drop" mark: Archivo black-expanded `a` + seafoam round period with ripple rings on ink; generator scripts in session scratchpad, icons in public/icons/, og in public/og.png)
+- Next: public submissions with moderation queue (`status` column)
+- Later: password + Google sign-in (after domain + project email exist), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
+
+## Perf/glitch fixes (Aug 4, 2026) — don't regress
+
+- Supabase Storage uploads MUST set `cache-control: max-age=31536000` header (bare seconds value silently becomes no-cache; HEAD responses misleadingly show no-cache — verify with GET)
+- Images ≤200KB webp, max 1200px wide, before upload
+- Feed queries order by date_spotted DESC, created_at DESC, id ASC (stable order, no reshuffle on refetch)
+- `experimental.staleTimes` in next.config.mjs keeps back-nav instant
+- AdImage component owns all ad `<img>`s: lazy/eager, decode async, brand-name fallback on error
 
 ## Conventions
 
