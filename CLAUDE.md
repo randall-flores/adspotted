@@ -21,7 +21,7 @@ Formerly AdSpotted (renamed Aug 3, 2026; repo folder and Supabase project names 
 
 - `app/page.tsx` curated home (Aug 4, 2026): stage (8 newest) + "Today's drift" (24, seeded daily shuffle via `lib/drift.ts`) + "Go deeper" category tiles. Old `?category=` redirects to `/c/[category]`
 - `app/c/[category]/page.tsx` full per-category masonry, server-paginated 40 at a time via `?n=` Load-more link
-- NEVER put `content-visibility` on masonry cards — breaks painting inside CSS columns on mobile (blank right-column cards, Aug 4 bug). Perf comes from capping bob animation to first 30 cards instead
+- Masonry = flex columns with round-robin JS distribution (`Masonry` in Feed.tsx), NEVER CSS multi-column: WebKit leaves the card at the column break unpainted on iOS (blank right-column card bug, Aug 4). Also no `content-visibility` on cards. Bob animation capped to first 30 cards; all masonry images load eagerly
 - `app/admin/page.tsx` client form, sends password as Bearer token
 - `app/api/ads/route.ts` checks `ADMIN_SECRET`, inserts with `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS)
 - `lib/supabase.ts` shared client, types, and the CATEGORIES list. Supabase URL and anon key have hardcoded public fallbacks (safe: anon key is public by design)
