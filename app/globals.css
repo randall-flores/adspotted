@@ -191,6 +191,9 @@ body {
   margin-bottom: 1rem;
 }
 
+/* NOTE: no content-visibility here — it breaks painting inside CSS columns
+   on mobile (right-column cards render blank). Animation is capped below
+   instead. */
 .fc {
   position: relative;
   display: block;
@@ -198,8 +201,6 @@ body {
   overflow: hidden;
   background: var(--soft);
   box-shadow: 0 10px 24px rgba(14, 30, 38, 0.13);
-  content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
 }
 .masonry > *:nth-child(odd) .fc {
   transform: rotate(-1.2deg);
@@ -208,7 +209,9 @@ body {
   transform: rotate(1deg);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .fc {
+  /* bob only the first 30 cards: keeps the signature alive where people
+     look first without running hundreds of infinite animations */
+  .masonry > *:nth-child(-n + 30) .fc {
     animation: bob 5.4s ease-in-out infinite;
   }
   .masonry > *:nth-child(3n) .fc { animation-delay: 1.4s; }
