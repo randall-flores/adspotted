@@ -73,7 +73,12 @@ export default async function FindPage({
       <div className="mt-4 flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className="font-display font-black text-[22px] leading-tight">
-            {ad.brand_name}
+            <Link
+              href={`/brand/${encodeURIComponent(ad.brand_name)}`}
+              className="hover:text-[var(--accent)] transition-colors"
+            >
+              {ad.brand_name}
+            </Link>
           </h1>
           <p className="text-[15px] text-[#44524e] mt-0.5">{ad.product_name}</p>
           <Link
@@ -81,6 +86,12 @@ export default async function FindPage({
             className="inline-block mt-2.5 text-[11px] font-extrabold tracking-[0.1em] uppercase text-[var(--accent)]"
           >
             {ad.category}
+          </Link>
+          <Link
+            href={`/brand/${encodeURIComponent(ad.brand_name)}`}
+            className="block mt-2 text-[13px] font-bold text-[var(--ink)] hover:text-[var(--accent)]"
+          >
+            All finds from {ad.brand_name} →
           </Link>
         </div>
         <div className="flex flex-col gap-2 items-end shrink-0">

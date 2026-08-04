@@ -7,12 +7,23 @@ import BottomNav from "./components/BottomNav";
 import SavedLink from "./components/SavedLink";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://adspotted.vercel.app"),
   title: "Adrift — the products you scrolled past",
   description:
     "Products and brands from Instagram ads, collected so you can find them again. Browse by category, save what you like, and shop straight at the brand.",
   icons: {
     icon: "/icons/favicon-64.png",
     apple: "/icons/apple-touch-icon.png",
+  },
+  openGraph: {
+    siteName: "Adrift",
+    title: "Adrift — the products you scrolled past",
+    description:
+      "Products and brands spotted in ads, collected so you can find them again.",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
