@@ -52,6 +52,7 @@ Store metadata + link out to brand sites. Prefer Meta Ad Library images or brand
 - Next: public submissions with moderation queue (`status` column)
 - Next: location + language settings (requested Aug 4, 2026) — add `country` (where brand ships/markets) to ads; user-facing region picker filters feed; language toggle later via next-intl. Needs backfill of country per existing brand before UI ships
 - Later: password + Google sign-in (after domain + project email exist), saved collections, AI vibe search at ~200+ finds, React Native/Expo app reusing the same Supabase backend
+- To decide (raised Aug 5, 2026): reviews on find/brand detail pages, shown at the bottom of the page when you open a card. Two possible sources, either or both: import reviews the brand already has, and/or let users submit reviews. Scope, moderation, and data model undecided
 
 ## Perf/glitch fixes (Aug 4, 2026) — don't regress
 
