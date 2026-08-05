@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { supabaseBrowser, CATEGORIES, type Ad } from "@/lib/supabase";
-import { Stage, Masonry } from "./components/Feed";
-import CategoryTabs from "./components/CategoryTabs";
+import { Stage, Masonry } from "../components/Feed";
 import { dailySample } from "@/lib/drift";
 
 export const dynamic = "force-dynamic";
@@ -33,9 +32,7 @@ export default async function Home({
   }).filter((t) => t.count > 0);
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-4">
-      <CategoryTabs active={null} />
-
+    <main className="mx-auto max-w-7xl px-5 pb-4">
       {error && (
         <p className="text-sm text-red-600">
           Could not load the feed: {error.message}

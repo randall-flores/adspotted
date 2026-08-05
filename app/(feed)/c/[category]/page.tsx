@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabaseBrowser, CATEGORIES, type Ad } from "@/lib/supabase";
-import { Masonry } from "../../components/Feed";
-import CategoryTabs from "../../components/CategoryTabs";
+import { Masonry } from "../../../components/Feed";
 
 export const dynamic = "force-dynamic";
 const PAGE = 40;
@@ -60,8 +59,7 @@ export default async function CategoryPage({
   const total = count ?? 0;
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-4">
-      <CategoryTabs active={name} />
+    <main className="mx-auto max-w-7xl px-5 pb-4">
       <div className="flex items-baseline justify-between mb-4">
         <h1 className="font-display font-black text-[20px]">{name}</h1>
         <span className="text-[11px] font-extrabold text-[var(--accent)]">
