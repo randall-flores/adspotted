@@ -19,8 +19,9 @@ Formerly AdSpotted (renamed Aug 3, 2026; repo folder and Supabase project names 
 
 ## Architecture
 
-- `app/page.tsx` curated home (Aug 4, 2026): stage (8 newest) + "Today's drift" (24, seeded daily shuffle via `lib/drift.ts`) + "Go deeper" category tiles. Old `?category=` redirects to `/c/[category]`
-- `app/c/[category]/page.tsx` full per-category masonry, server-paginated 40 at a time via `?n=` Load-more link
+- `app/(feed)/page.tsx` curated home (Aug 4, 2026): stage (8 newest) + "Today's drift" (24, seeded daily shuffle via `lib/drift.ts`) + "Go deeper" category tiles. Old `?category=` redirects to `/c/[category]`
+- `app/(feed)/c/[category]/page.tsx` full per-category masonry, server-paginated 40 at a time via `?n=` Load-more link
+- `app/(feed)/layout.tsx` owns the category tab row (CategoryTabs is a client comp reading usePathname) so tabs persist across tab switches; tab Links use `prefetch={true}` (Aug 5, 2026 — dynamic-route prefetch otherwise stops at the loading boundary and first taps lag). URLs unchanged by the route group
 - Masonry = flex columns with round-robin JS distribution (`Masonry` in Feed.tsx), NEVER CSS multi-column: WebKit leaves the card at the column break unpainted on iOS (blank right-column card bug, Aug 4). Also no `content-visibility` on cards. Bob animation capped to first 30 cards; all masonry images load eagerly
 - `app/admin/page.tsx` client form, sends password as Bearer token
 - `app/api/ads/route.ts` checks `ADMIN_SECRET`, inserts with `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS)
