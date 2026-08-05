@@ -38,6 +38,35 @@ body {
   font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
 }
 
+/* App feel: no gray tap flash, no double-tap zoom delay on controls.
+   Press feedback lives on the `scale` property so it composes with the
+   masonry tilt (transform) and bob (translate) without overwriting them. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+/* Header: sticky, slides away on scroll-down on phones only */
+.app-header {
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+@media (max-width: 639px) {
+  .app-header {
+    transition: transform 0.25s ease;
+  }
+  .app-header.header-hidden {
+    transform: translateY(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-header {
+    transition: none;
+  }
+}
+
 /* Wordmark and headings: expanded cut of the same family */
 .font-display {
   font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -337,13 +366,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  min-height: 44px;
   font-size: 12.5px;
   font-weight: 700;
   color: var(--ink);
   border: 1.5px solid var(--line);
   border-radius: 9999px;
   background: #ffffff;
-  padding: 7px 14px 7px 10px;
+  padding: 7px 16px 7px 12px;
   margin-bottom: 12px;
   cursor: pointer;
   transition: border-color 0.15s ease;
@@ -361,8 +391,8 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(4px);
@@ -377,9 +407,15 @@ body {
 .heart-btn:hover {
   transform: scale(1.1);
 }
+/* extend the touch target to 48px without growing the chip */
+.heart-btn::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
 .heart-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
 }
 .heart-btn.saved {
   background: var(--accent);
@@ -613,6 +649,7 @@ body {
   border-color: var(--ink);
 }
 .signout-btn {
+  min-height: 44px;
   font-size: 13px;
   font-weight: 700;
   color: var(--ink);
@@ -642,12 +679,13 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
   font-size: 12.5px;
   font-weight: 700;
   color: var(--ink);
   border: 1.5px solid var(--line);
   border-radius: 9999px;
-  padding: 8px 14px;
+  padding: 8px 16px;
   cursor: pointer;
   background: #ffffff;
   transition: border-color 0.15s ease;
@@ -656,19 +694,35 @@ body {
   border-color: var(--ink);
 }
 
-/* Bottom nav (mobile app bar) */
+/* Bottom nav (mobile app bar): seafoam pill slides to the active tab */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 68px;
+  height: calc(68px + env(safe-area-inset-bottom));
   background: var(--ink);
   color: #8fa0a0;
   display: flex;
-  padding-top: 9px;
+  padding-top: 8px;
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 20;
+}
+.bn-pill {
+  position: absolute;
+  top: 7px;
+  width: 48px;
+  height: 30px;
+  border-radius: 9999px;
+  background: var(--seafoam);
+  transform: translateX(-50%);
+  transition: left 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bn-pill {
+    transition: none;
+  }
 }
 .bottom-nav .bn-item {
   flex: 1;
@@ -676,29 +730,89 @@ body {
   font-size: 10px;
   font-weight: 600;
   position: relative;
+  transition: scale 0.16s ease;
 }
-.bottom-nav .bn-item svg {
-  display: block;
-  margin: 0 auto 3px;
+.bottom-nav .bn-item:active {
+  scale: 0.92;
+}
+.bn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 30px;
+  margin: 0 auto 2px;
+  position: relative;
+}
+.bn-icon svg {
   width: 22px;
   height: 22px;
 }
 .bottom-nav .bn-item.active {
-  color: var(--seafoam);
+  color: #ffffff;
+}
+.bottom-nav .bn-item.active .bn-icon svg {
+  stroke: var(--ink);
 }
 .bn-badge {
   position: absolute;
-  top: -4px;
-  left: calc(50% + 8px);
+  top: -3px;
+  left: calc(50% + 10px);
   background: var(--seafoam);
   color: var(--ink);
   font-size: 9px;
   font-weight: 800;
   border-radius: 9999px;
   padding: 1px 5px;
+  z-index: 2;
+  border: 2px solid var(--ink);
 }
 @media (min-width: 640px) {
   .bottom-nav {
     display: none;
   }
+}
+
+/* Press feedback (kept last so the scale transition survives the earlier
+   per-element `transition` shorthands). `scale` is its own property, so it
+   composes with the masonry tilt (transform) and bob (translate). */
+.fc,
+.stage-card,
+.cat-tile {
+  transition: scale 0.16s ease;
+}
+.shop-btn {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, scale 0.16s ease;
+}
+.cta-btn {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, scale 0.16s ease;
+}
+.more-btn,
+.back-btn,
+.share-btn,
+.signout-btn {
+  transition: border-color 0.15s ease, scale 0.16s ease;
+}
+.sug-chip {
+  transition: background-color 0.15s ease, transform 0.15s ease, scale 0.16s ease;
+}
+.heart-btn {
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, scale 0.16s ease;
+}
+.fc:active,
+.stage-card:active,
+.cat-tile:active {
+  scale: 0.975;
+}
+.shop-btn:active,
+.cta-btn:active,
+.more-btn:active,
+.back-btn:active,
+.share-btn:active,
+.signout-btn:active,
+.sug-chip:active {
+  scale: 0.95;
+}
+.heart-btn:active {
+  scale: 0.88;
 }

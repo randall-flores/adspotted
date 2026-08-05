@@ -1,10 +1,15 @@
 import { Analytics } from "@vercel/analytics/next";
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import AppHeader from "./components/AppHeader";
 import AuthSync from "./components/AuthSync";
 import BottomNav from "./components/BottomNav";
-import SavedLink from "./components/SavedLink";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://adspotted.vercel.app"),
@@ -42,54 +47,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased min-h-screen pb-[68px] sm:pb-0">
-        <header className="bg-[var(--bg)] sticky top-0 z-10">
-          <div className="mx-auto max-w-7xl px-5 pt-5 pb-3 flex items-center justify-between gap-4">
-            <Link
-              href="/"
-              className="font-display font-black text-[24px] leading-none lowercase"
-            >
-              adrift<span className="drift-dot">.</span>
-            </Link>
-            <div className="flex items-center gap-6">
-              <Link
-                href="/explore"
-                className="hidden sm:flex items-center gap-1.5 text-[13px] font-bold"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-[18px] h-[18px] text-[var(--accent)]"
-                  aria-hidden="true"
-                >
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M21 21l-4-4" />
-                </svg>
-                Explore
-              </Link>
-              <SavedLink />
-              <Link
-                href="/profile"
-                className="hidden sm:flex items-center gap-1.5 text-[13px] font-bold"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-[18px] h-[18px] text-[var(--accent)]"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4 21c1-5 5-7 8-7s7 2 8 7" />
-                </svg>
-                Profile
-              </Link>
-            </div>
-          </div>
-        </header>
+      <body className="antialiased min-h-screen pb-[calc(68px+env(safe-area-inset-bottom))] sm:pb-0">
+        <AppHeader />
         {children}
         <footer className="mt-6">
           <div className="mx-auto max-w-7xl px-5 py-8 text-xs text-[var(--gray)]">
